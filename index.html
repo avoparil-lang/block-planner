@@ -14,8 +14,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<!-- Supabase client (loads in the browser at runtime) -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase client (bundled locally so nothing external can block it) -->
+<script src="./supabase.js"></script>
 <style>
   :root{
     --ink:#12161b;--surface:#1b2129;--surface-2:#222a34;--line:#2c343f;--line-strong:#3a4552;
@@ -219,7 +219,7 @@
      PASTE YOUR TWO SUPABASE VALUES HERE  (from Phase 1, step 4)
      ============================================================ */
   const SUPABASE_URL = "https://soukasonhzzfklgsytcm.supabase.co";
-  const SUPABASE_KEY = "PASTE_YOUR_PUBLISHABLE_OR_ANON_KEY";
+  const SUPABASE_KEY = "sb_publishable_D6sjyz8393B8JCaFSvEZYw_9OA6YHv9";
   /* ============================================================ */
 
   const configured = !SUPABASE_URL.includes('YOUR-PROJECT') && !SUPABASE_KEY.includes('PASTE_');
