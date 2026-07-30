@@ -1,6 +1,6 @@
 // Weekly Block Planner — service worker
 // Bump CACHE when you change any cached file to force an update.
-const CACHE = 'block-planner-v2';
+const CACHE = 'block-planner-v3';
 const ASSETS = [
   './',
   './index.html',
