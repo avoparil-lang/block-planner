@@ -60,7 +60,6 @@
   .who{color:var(--faint);font-size:12px;margin-top:4px}
   .who b{color:var(--muted);font-weight:600}
   .head-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  .head-actions>*{flex:0 0 auto}
   .totalpill{background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13px;white-space:nowrap}
   .totalpill b{color:var(--pilas);font-size:15px}
   .btn{background:var(--surface-2);border:1px solid var(--line-strong);color:var(--text);border-radius:8px;padding:8px 13px;font-size:13px;font-weight:500;transition:background .12s,border-color .12s}
@@ -114,7 +113,7 @@
   .placed.dragging{opacity:.25}
   .preview{position:absolute;left:3px;right:3px;border-radius:6px;z-index:1;pointer-events:none;border:2px dashed rgba(255,255,255,.5);background:rgba(255,255,255,.08)}
   .preview.bad{border-color:var(--danger);background:rgba(255,107,107,.12)}
-  .ghost{position:fixed;z-index:9999;pointer-events:none;border-radius:7px;padding:6px 9px;color:#0d1116;font-size:12px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.25);opacity:.94}
+  .dragclone{position:fixed;z-index:9999;pointer-events:none;border-radius:7px;padding:6px 9px;color:#0d1116;font-size:12px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.25);opacity:.94}
 
   .legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
   .leg{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted)}.leg b{color:var(--text);font-family:'Space Grotesk',sans-serif}
@@ -126,8 +125,7 @@
 
   .scrim{position:fixed;inset:0;background:rgba(6,9,12,.66);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
   .scrim.open{display:flex}
-  .modal{background:var(--surface);border:1px solid var(--line-strong);border-radius:14px;max-width:560px;width:100%;max-height:86vh;overflow:auto;padding:20px;display:flex;flex-direction:column;align-items:stretch}
-  #addCat{align-self:flex-start}
+  .modal{background:var(--surface);border:1px solid var(--line-strong);border-radius:14px;max-width:560px;width:100%;max-height:86vh;overflow:auto;padding:20px}
   .modal h2{font-size:18px;margin-bottom:4px}.modal .mhint{color:var(--muted);font-size:13px;margin-bottom:16px}
   .ehead,.erow{display:grid;grid-template-columns:20px 1fr 62px 74px 30px;gap:8px;align-items:center}
   .ehead{font-size:10px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;padding:0 2px}
@@ -136,7 +134,6 @@
   .erow input[type=color]{width:20px;height:20px;padding:0;border:none;background:none;border-radius:4px;cursor:pointer}
   .del{background:transparent;border:none;color:var(--faint);font-size:16px}.del:hover{color:var(--danger)}
   .modal-actions{display:flex;justify-content:space-between;gap:8px;margin-top:18px}
-  .modal-actions>*{flex:0 0 auto}
   .btn.primary{background:var(--pilas);border-color:var(--pilas);color:#1a1206;font-weight:600}.btn.primary:hover{background:#ffb84d}
   @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -422,7 +419,7 @@
     window.addEventListener('pointermove',onMove);window.addEventListener('pointerup',onUp);
     try{srcEl.setPointerCapture(ev.pointerId);}catch(e){}
   }
-  function makeGhost(){const g=el('div','ghost');g.style.background=drag.cat.color;g.style.width=Math.max(drag.rect.width,120)+'px';g.innerHTML=`<div>${esc(drag.cat.name)}</div><div class="p-time">${fmtHours(drag.cat.hours)}</div>`;document.body.appendChild(g);drag.ghost=g;if(drag.source.type==='placed')drag.srcEl.classList.add('dragging');}
+  function makeGhost(){const g=el('div','dragclone');g.style.background=drag.cat.color;g.style.width=Math.max(drag.rect.width,120)+'px';g.innerHTML=`<div>${esc(drag.cat.name)}</div><div class="p-time">${fmtHours(drag.cat.hours)}</div>`;document.body.appendChild(g);drag.ghost=g;if(drag.source.type==='placed')drag.srcEl.classList.add('dragging');}
   function moveGhost(ev){drag.ghost.style.left=(ev.clientX-drag.grabDX)+'px';drag.ghost.style.top=(ev.clientY-drag.grabDY)+'px';}
   function clearTargets(){document.querySelectorAll('.day.target').forEach(d=>d.classList.remove('target'));document.querySelectorAll('.preview').forEach(p=>p.remove());document.getElementById('tray').classList.remove('drop-return');}
   function onMove(ev){

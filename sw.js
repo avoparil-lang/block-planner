@@ -1,6 +1,6 @@
-// Weekly Block Planner — service worker
-// Bump CACHE when you change any cached file to force an update.
-const CACHE = 'block-planner-v4';
+// Weekly Block Planner — service worker (network-first)
+// Always serves the freshest file when online; falls back to cache offline.
+const CACHE = 'block-planner-v6';
 const ASSETS = [
   './',
   './index.html',
@@ -24,21 +24,17 @@ self.addEventListener('activate', (e) => {
   );
 });
 
-// Cache-first for our own assets; network fallback (e.g. fonts) otherwise.
+// Network-first: try the network, cache a fresh copy, fall back to cache only if offline.
 self.addEventListener('fetch', (e) => {
   const req = e.request;
   if (req.method !== 'GET') return;
   e.respondWith(
-    caches.match(req).then((hit) => {
-      if (hit) return hit;
-      return fetch(req).then((res) => {
-        // opportunistically cache same-origin GETs
-        if (res && res.ok && new URL(req.url).origin === self.location.origin) {
-          const copy = res.clone();
-          caches.open(CACHE).then((c) => c.put(req, copy));
-        }
-        return res;
-      }).catch(() => hit);
-    })
+    fetch(req).then((res) => {
+      if (res && res.ok && new URL(req.url).origin === self.location.origin) {
+        const copy = res.clone();
+        caches.open(CACHE).then((c) => c.put(req, copy));
+      }
+      return res;
+    }).catch(() => caches.match(req))
   );
 });
