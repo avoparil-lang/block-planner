@@ -1,6 +1,6 @@
 // Weekly Block Planner — service worker (network-first)
 // Always serves the freshest file when online; falls back to cache offline.
-const CACHE = 'block-planner-v6';
+const CACHE = 'block-planner-v7';
 const ASSETS = [
   './',
   './index.html',
